@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リフィーディング症候群予防アプリ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .section-blue {
+            background-color: #eff6ff;
+            border-left-color: #3b82f6;
+        }
+
+        .section-red {
+            background-color: #fef2f2;
+            border-left-color: #ef4444;
+        }
+
+        .section-yellow {
+            background-color: #fffbeb;
+            border-left-color: #f59e0b;
+        }
+
+        .section-purple {
+            background-color: #faf5ff;
+            border-left-color: #8b5cf6;
+        }
+
+        .section-green {
+            background-color: #f0fdf4;
+            border-left-color: #10b981;
+        }
+
+        .section h3 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        .risk-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .risk-card {
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .risk-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .risk-low {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .risk-moderate {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .risk-high {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .risk-critical {
+            background-color: #fecaca;
+            color: #7f1d1d;
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .strategy-item h4 {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .strategy-item p {
+            color: #6b7280;
+        }
+
+        .warning {
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .warning p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .warning .warning-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .alcohol-details {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>リフィーディング症候群予防アプリ</h1>
+            <p>包括的リスク評価と栄養戦略提示システム</p>
+        </div>
+
+        <!-- 評価フォーム -->
+        <div id="assessment-form">
+            <!-- 基本情報 -->
+            <div class="section section-blue">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7V9C15 10.1 14.1 11 13 11V22H11V11C9.9 11 9 10.1 9 9V7H3V9H5V20C5 21.1 5.9 22 7 22H9V20H7V9H9V7H15V9H17V20H15V22H17C18.1 22 19 21.1 19 20V9H21Z"/>
+                    </svg>
+                    患者基本情報
+                </h3>
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label>年齢</label>
+                        <input type="number" id="age" value="60" placeholder="歳">
+                    </div>
+                    <div class="form-group">
+                        <label>体重</label>
+                        <input type="number" id="weight" value="50" placeholder="kg">
+                    </div>
+                    <div class="form-group">
+                        <label>身長</label>
+                        <input type="number" id="height" value="160" placeholder="cm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- リフィーディング症候群リスク因子 -->
+            <div class="section section-red">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z"/>
+                    </svg>
+                    リフィーディング症候群リスク因子
+                </h3>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label>体重減少（%）</label>
+                        <input type="number" id="weightLoss" placeholder="過去3-6ヶ月での体重減少率">
+                    </div>
+                    <div class="form-group">
+                        <label>絶食期間（日）</label>
+                        <input type="number" id="fastingDays" placeholder="絶食または極度の摂食不足期間">
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="alcoholism">
+                        <label for="alcoholism">アルコール依存症の既往</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="malnutrition">
+                        <label for="malnutrition">栄養失調の既往</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="anorexia">
+                        <label for="anorexia">神経性食欲不振症</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="chronicMalabsorption">
+                        <label for="chronicMalabsorption">慢性吸収不良症候群</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 血液検査値 -->
+            <div class="section section-yellow">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM12 18C13.1 18 14 18.9 14 20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20C10 18.9 10.9 18 12 18ZM6 8C7.1 8 8 8.9 8 10C8 11.1 7.1 12 6 12C4.9 12 4 11.1 4 10C4 8.9 4.9 8 6 8ZM18 8C19.1 8 20 8.9 20 10C20 11.1 19.1 12 18 12C16.9 12 16 11.1 16 10C16 8.9 16.9 8 18 8Z"/>
+                    </svg>
+                    血液検査値
+                </h3>
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label>血清リン（mg/dL）</label>
+                        <input type="number" step="0.1" id="phosphate" placeholder="正常値: 2.5-4.5">
+                    </div>
+                    <div class="form-group">
+                        <label>血清カリウム（mEq/L）</label>
+                        <input type="number" step="0.1" id="potassium" placeholder="正常値: 3.5-5.0">
+                    </div>
+                    <div class="form-group">
+                        <label>血清マグネシウム（mg/dL）</label>
+                        <input type="number" step="0.1" id="magnesium" placeholder="正常値: 1.8-2.4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- アルコール関連評価 -->
+            <div class="section section-purple">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 7C13.4 7 14.8 8.6 14.8 10.5V11.5C15.4 12 16 12.4 16 13.3C16 14.8 15.4 16 13.8 16H10.2C8.6 16 8 14.8 8 13.3C8 12.4 8.6 12 9.2 11.5V10.5C9.2 8.6 10.6 7 12 7ZM12 8.2C11.2 8.2 10.5 8.7 10.5 9.5V10H13.5V9.5C13.5 8.7 12.8 8.2 12 8.2Z"/>
+                    </svg>
+                    アルコール関連評価
+                </h3>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="alcoholHistory">
+                    <label for="alcoholHistory">アルコール摂取歴あり</label>
+                </div>
+                
+                <div id="alcoholDetails" class="alcohol-details hidden">
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label>1日のアルコール摂取量（g）</label>
+                            <input type="number" id="dailyAlcoholAmount" placeholder="エタノール換算">
+                        </div>
+                        <div class="form-group">
+                            <label>最終飲酒からの時間</label>
+                            <input type="number" id="lastDrink" placeholder="時間">
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="withdrawalSymptoms">
+                        <label for="withdrawalSymptoms">離脱症状あり（振戦、発汗、不安など）</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="calculateRisks()">リスク評価を実行</button>
+        </div>
+
+        <!-- 結果表示 -->
+        <div id="results" class="hidden">
+            <div class="risk-cards">
+                <div class="risk-card">
+                    <h3>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
+                        </svg>
+                        リフィーディング症候群
+                    </h3>
+                    <div id="refeedingRisk" class="risk-badge">評価中...</div>
+                    <p id="refeedingScore" style="margin-top: 10px; font-size: 14px;"></p>
+                </div>
+                
+                <div class="risk-card">
+                    <h3>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/>
+                        </svg>
+                        Wernicke脳症
+                    </h3>
+                    <div id="wernickeRisk" class="risk-badge">評価中...</div>
+                </div>
+                
+                <div class="risk-card">
+                    <h3>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z"/>
+                        </svg>
+                        離脱せん妄
+                    </h3>
+                    <div id="withdrawalRisk" class="risk-badge">評価中...</div>
+                </div>
+            </div>
+
+            <div class="section section-green">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                    </svg>
+                    推奨栄養戦略
+                </h3>
+                <div id="nutritionStrategy" class="strategy-grid">
+                    <!-- 栄養戦略がここに表示されます -->
+                </div>
+            </div>
+
+            <div id="wernickeAdvice" class="section section-blue hidden">
+                <h4>Wernicke脳症予防</h4>
+                <p id="wernickeText"></p>
+            </div>
+
+            <div id="withdrawalAdvice" class="section section-red hidden">
+                <h4>アルコール離脱対策</h4>
+                <p id="withdrawalText"></p>
+            </div>
+
+            <button class="btn btn-secondary" onclick="resetForm()">新しい評価を開始</button>
+        </div>
+
+        <div class="warning">
+            <p class="warning-title">⚠️ 重要な注意事項</p>
+            <p>このアプリは臨床判断の補助ツールです。最終的な治療方針は必ず医師の判断に基づいて決定してください。緊急時は速やかに専門医に相談し、適切な医療機関での治療を受けてください。</p>
+        </div>
+    </div>
+
+    <script>
+        // アルコール摂取歴チェックボックスの制御
+        document.getElementById('alcoholHistory').addEventListener('change', function() {
+            const alcoholDetails = document.getElementById('alcoholDetails');
+            if (this.checked) {
+                alcoholDetails.classList.remove('hidden');
+            } else {
+                alcoholDetails.classList.add('hidden');
+            }
+        });
+
+        function calculateRisks() {
+            // 入力値の取得
+            const weightLoss = parseFloat(document.getElementById('weightLoss').value) || 0;
+            const fastingDays = parseInt(document.getElementById('fastingDays').value) || 0;
+            const alcoholism = document.getElementById('alcoholism').checked;
+            const malnutrition = document.getElementById('malnutrition').checked;
+            const anorexia = document.getElementById('anorexia').checked;
+            const chronicMalabsorption = document.getElementById('chronicMalabsorption').checked;
+            const phosphate = parseFloat(document.getElementById('phosphate').value) || 5;
+            const potassium = parseFloat(document.getElementById('potassium').value) || 4;
+            const magnesium = parseFloat(document.getElementById('magnesium').value) || 2;
+            const alcoholHistory = document.getElementById('alcoholHistory').checked;
+            const dailyAlcoholAmount = parseFloat(document.getElementById('dailyAlcoholAmount').value) || 0;
+            const lastDrink = parseInt(document.getElementById('lastDrink').value) || 0;
+            const withdrawalSymptoms = document.getElementById('withdrawalSymptoms').checked;
+
+            // リフィーディング症候群リスク計算
+            let refeedingScore = 0;
+            
+            if (weightLoss >= 15) refeedingScore += 3;
+            else if (weightLoss >= 10) refeedingScore += 2;
+            else if (weightLoss >= 5) refeedingScore += 1;
+            
+            if (fastingDays >= 10) refeedingScore += 3;
+            else if (fastingDays >= 5) refeedingScore += 2;
+            else if (fastingDays >= 3) refeedingScore += 1;
+            
+            if (alcoholism) refeedingScore += 2;
+            if (malnutrition) refeedingScore += 2;
+            if (anorexia) refeedingScore += 2;
+            if (chronicMalabsorption) refeedingScore += 1;
+            
+            if (phosphate < 0.8) refeedingScore += 2;
+            if (potassium < 3.5) refeedingScore += 1;
+            if (magnesium < 0.7) refeedingScore += 1;
+
+            // Wernicke脳症リスク
+            let wernickeRisk = 'low';
+            if (alcoholism || fastingDays >= 7 || malnutrition) {
+                wernickeRisk = 'high';
+            } else if (fastingDays >= 3) {
+                wernickeRisk = 'moderate';
+            }
+
+            // 離脱せん妄リスク
+            let withdrawalRisk = 'low';
+            if (alcoholHistory) {
+                if (dailyAlcoholAmount >= 80 && lastDrink >= 12) {
+                    withdrawalRisk = 'high';
+                } else if (dailyAlcoholAmount >= 40 && lastDrink >= 6) {
+                    withdrawalRisk = 'moderate';
+                }
+                
+                if (withdrawalSymptoms) {
+                    withdrawalRisk = withdrawalRisk === 'high' ? 'critical' : 'high';
+                }
+            }
+
+            // リスクレベル判定
+            let refeedingRisk = 'low';
+            if (refeedingScore >= 6) refeedingRisk = 'high';
+            else if (refeedingScore >= 3) refeedingRisk = 'moderate';
+
+            // 結果表示
+            displayResults(refeedingRisk, refeedingScore, wernickeRisk, withdrawalRisk);
+        }
+
+        function displayResults(refeedingRisk, refeedingScore, wernickeRisk, withdrawalRisk) {
+            // フォームを隠して結果を表示
+            document.getElementById('assessment-form').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+
+            // リスクバッジの更新
+            updateRiskBadge('refeedingRisk', refeedingRisk);
+            updateRiskBadge('wernickeRisk', wernickeRisk);
+            updateRiskBadge('withdrawalRisk', withdrawalRisk);
+
+            document.getElementById('refeedingScore').textContent = `スコア: ${refeedingScore}/12`;
+
+            // 栄養戦略の表示
+            displayNutritionStrategy(refeedingRisk);
+
+            // Wernicke脳症予防アドバイス
+            if (wernickeRisk !== 'low') {
+                const wernickeAdvice = document.getElementById('wernickeAdvice');
+                const wernickeText = document.getElementById('wernickeText');
+                wernickeAdvice.classList.remove('hidden');
+                
+                if (wernickeRisk === 'high') {
+                    wernickeText.textContent = 'チアミン（ビタミンB1）500mg静注を3日間、その後100mg/日経口投与を栄養開始前に実施してください。';
+                } else {
+                    wernickeText.textContent = 'チアミン（ビタミンB1）200-300mg/日経口投与を栄養開始前に実施してください。';
+                }
+            }
+
+            // 離脱せん妄対策アドバイス
+            if (withdrawalRisk !== 'low') {
+                const withdrawalAdvice = document.getElementById('withdrawalAdvice');
+                const withdrawalText = document.getElementById('withdrawalText');
+                withdrawalAdvice.classList.remove('hidden');
+                
+                if (withdrawalRisk === 'critical') {
+                    withdrawalText.textContent = 'ICU管理を検討。ベンゾジアゼピン系薬剤による治療が必要です。';
+                } else if (withdrawalRisk === 'high') {
+                    withdrawalText.textContent = 'CIWA-Arプロトコルに従った管理を開始してください。';
+                } else {
+                    withdrawalText.textContent = '離脱症状の観察を継続し、必要に応じて薬物療法を検討してください。';
+                }
+            }
+        }
+
+        function updateRiskBadge(elementId, risk) {
+            const element = document.getElementById(elementId);
+            element.className = 'risk-badge';
+            
+            switch (risk) {
+                case 'critical':
+                    element.classList.add('risk-critical');
+                    element.textContent = '緊急対応必要';
+                    break;
+                case 'high':
+                    element.classList.add('risk-high');
+                    element.textContent = '高リスク';
+                    break;
+                case 'moderate':
+                    element.classList.add('risk-moderate');
+                    element.textContent = '中等度リスク';
+                    break;
+                default:
+                    element.classList.add('risk-low');
+                    element.textContent = '低リスク';
+                    break;
+            }
+        }
+
+        function displayNutritionStrategy(refeedingRisk) {
+            const strategies = {
+                high: {
+                    calories: '10-15 kcal/kg/日から開始',
+                    progression: '2-3日ごとに10-15 kcal/kg/日ずつ増量',
+                    monitoring: '血清リン、カリウム、マグネシウムを6-12時間ごと',
+                    supplements: 'チアミン200-300mg/日、ビタミンB群、亜鉛'
+                },
+                moderate: {
+                    calories: '15-20 kcal/kg/日から開始',
+                    progression: '2日ごとに15-20 kcal/kg/日ずつ増量',
+                    monitoring: '血清電解質を12-24時間ごと',
+                    supplements: 'チアミン100-200mg/日、マルチビタミン'
+                },
+                low: {
+                    calories: '20-25 kcal/kg/日から開始',
+                    progression: '1-2日ごとに通常量まで増量',
+                    monitoring: '血清電解質を24-48時間ごと',
+                    supplements: 'チアミン100mg/日、マルチビタミン'
+                }
+            };
+
+            const strategy = strategies[refeedingRisk];
+            const strategyElement = document.getElementById('nutritionStrategy');
+            
+            strategyElement.innerHTML = `
+                <div class="strategy-item">
+                    <h4>初期カロリー</h4>
+                    <p>${strategy.calories}</p>
+                </div>
+                <div class="strategy-item">
+                    <h4>増量プロトコル</h4>
+                    <p>${strategy.progression}</p>
+                </div>
+                <div class="strategy-item">
+                    <h4>モニタリング</h4>
+                    <p>${strategy.monitoring}</p>
+                </div>
+                <div class="strategy-item">
+                    <h4>補充療法</h4>
+                    <p>${strategy.supplements}</p>
+                </div>
+            `;
+        }
+
+        function resetForm() {
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('assessment-form').classList.remove('hidden');
+            document.getElementById('wernickeAdvice').classList.add('hidden');
+            document.getElementById('withdrawalAdvice').classList.add('hidden');
+            
+            // フォームのリセット（デフォルト値を保持）
+            document.getElementById('weightLoss').value = '';
+            document.getElementById('fastingDays').value = '';
+            document.getElementById('phosphate').value = '';
+            document.getElementById('potassium').value = '';
+            document.getElementById('magnesium').value = '';
+            document.getElementById('dailyAlcoholAmount').value = '';
+            document.getElementById('lastDrink').value = '';
+            
+            // チェックボックスのリセット
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            
+            // アルコール詳細を隠す
+            document.getElementById('alcoholDetails').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
