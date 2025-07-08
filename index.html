@@ -5,39 +5,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>救急・集中治療医学 研究・資料</title>
     <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            margin: 2em;
-        }
-        h1 {
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-        }
-        ul {
-            list-style: none;
+        * {
+            margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        li {
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
             margin-bottom: 10px;
+            font-weight: 600;
         }
-        a {
+
+        .header p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+
+        .resources-list {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .resource-item {
+            display: block;
+            padding: 25px 30px;
+            border-bottom: 1px solid #eee;
             text-decoration: none;
-            color: #0366d6;
+            color: inherit;
+            transition: background-color 0.2s;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .resource-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .resource-description {
+            color: #7f8c8d;
+            font-size: 0.95em;
+        }
+
+        .resource-tag {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 40px;
+            color: #856404;
+        }
+
+        .disclaimer h3 {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        .disclaimer ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .disclaimer li {
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .resource-item {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>救急・集中治療医学 研究・資料</h1>
-    <p>研究や臨床に役立つ情報をまとめています。</p>
-    <ul>
-        <li><a href="enteral_nutrition.html">重症患者における経腸栄養</a></li>
-        <li><a href="gwr.html">地理的加重回帰（GWR）</a></li>
-        <li><a href="splenic-injury.html">外傷性脾損傷</a></li>
-        <li><a href="refeeding-syndrome.html">Refeeding Syndrome</a></li>
-    </ul>
+    <div class="container">
+        <div class="header">
+            <h1>救急・集中治療医学 研究・資料</h1>
+            <p>臨床研究と実践に役立つ情報をまとめています</p>
+        </div>
+
+        <div class="resources-list">
+            <a href="enteral_nutrition.html" class="resource-item">
+                <div class="resource-title">重症患者における経腸栄養</div>
+                <div class="resource-description">
+                    集中治療室における経腸栄養の適応、プロトコル、合併症管理に関するガイドライン
+                </div>
+                <div class="resource-tag">栄養療法</div>
+            </a>
+
+            <a href="gwr.html" class="resource-item">
+                <div class="resource-title">心停止後症候群における頭部CT評価</div>
+                <div class="resource-description">
+                    心肺蘇生後患者の神経学的予後評価における頭部CTの役割と解釈
+                </div>
+                <div class="resource-tag">神経集中治療</div>
+            </a>
+
+            <a href="splenic-injury.html" class="resource-item">
+                <div class="resource-title">外傷性脾損傷</div>
+                <div class="resource-description">
+                    外傷性脾損傷の診断、重症度分類、治療戦略に関する詳細な解説
+                </div>
+                <div class="resource-tag">外傷医学</div>
+            </a>
+
+            <a href="refeeding-syndrome.html" class="resource-item">
+                <div class="resource-title">Refeeding Syndrome</div>
+                <div class="resource-description">
+                    リフィーディング症候群の予防と管理のための包括的アセスメントツール
+                </div>
+                <div class="resource-tag">栄養リスク</div>
+            </a>
+        </div>
+
+        <div class="disclaimer">
+            <h3>⚠️ 重要な注意事項</h3>
+            <ul>
+                <li>これらの資料は学術的・教育的目的で提供されています</li>
+                <li>必ず最新のガイドラインや文献を確認してください</li>
+                <li>臨床判断は各医療機関の方針と医師の判断に基づいて行ってください</li>
+                <li>本サイトの情報の使用に関して、作成者は一切の責任を負いません</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>最終更新: 2025年7月</p>
+        </div>
+    </div>
 </body>
 </html>
