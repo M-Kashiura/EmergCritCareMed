@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAC投与量計算機 - アセトアミノフェン中毒</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+            font-size: 1.1rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .protocol-section {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .protocol-header {
+            background: linear-gradient(135deg, #20bf6b 0%, #26a69a 100%);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .protocol-content {
+            padding: 25px;
+        }
+
+        .dosage-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .dosage-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .dosage-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .dosage-note {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .warning h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .warning ul {
+            margin-left: 20px;
+        }
+
+        .warning li {
+            margin-bottom: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 NAC投与量計算機</h1>
+            <p>アセトアミノフェン中毒の治療支援ツール</p>
+        </div>
+
+        <div class="content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="weight">体重 (kg)</label>
+                    <input type="number" id="weight" placeholder="例: 43" min="1" max="200" step="0.1">
+                </div>
+
+                <div class="input-group">
+                    <label for="formulation">製剤選択</label>
+                    <select id="formulation">
+                        <option value="oral">アセチルシステイン内用液17.6％「あゆみ」</option>
+                        <option value="iv">静脈内投与</option>
+                    </select>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateDosage()">
+                    💊 投与量を計算する
+                </button>
+            </div>
+
+            <div id="results" class="results hidden">
+                <div id="oral-protocol" class="protocol-section">
+                    <div class="protocol-header">
+                        📋 21時間プロトコル（経口投与）- アセチルシステイン内用液17.6％
+                    </div>
+                    <div class="protocol-content">
+                        <div class="dosage-item">
+                            <div class="dosage-title">初回負荷量（140 mg/kg）</div>
+                            <div class="dosage-value" id="oral-loading-dose"></div>
+                            <div class="dosage-value" id="oral-loading-volume"></div>
+                            <div class="dosage-note">3-4倍に希釈して経口投与</div>
+                        </div>
+                        <div class="dosage-item">
+                            <div class="dosage-title">維持量（70 mg/kg、4時間毎に17回）</div>
+                            <div class="dosage-value" id="oral-maintenance-dose"></div>
+                            <div class="dosage-value" id="oral-maintenance-volume"></div>
+                            <div class="dosage-note">4時間毎に17回投与（計68時間）</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="iv-protocol" class="protocol-section">
+                    <div class="protocol-header">
+                        💉 21時間プロトコル（静脈内投与）
+                    </div>
+                    <div class="protocol-content">
+                        <div class="dosage-item">
+                            <div class="dosage-title">第1段階（15分で投与）</div>
+                            <div class="dosage-value" id="iv-stage1-dose"></div>
+                            <div class="dosage-note">150 mg/kg を15分で投与</div>
+                        </div>
+                        <div class="dosage-item">
+                            <div class="dosage-title">第2段階（4時間で投与）</div>
+                            <div class="dosage-value" id="iv-stage2-dose"></div>
+                            <div class="dosage-note">50 mg/kg を4時間で投与</div>
+                        </div>
+                        <div class="dosage-item">
+                            <div class="dosage-title">第3段階（16時間で投与）</div>
+                            <div class="dosage-value" id="iv-stage3-dose"></div>
+                            <div class="dosage-note">100 mg/kg を16時間で投与</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning">
+                <h3>⚠️ 重要な注意事項</h3>
+                <ul>
+                    <li>投与開始は可能な限り早期に（理想的には服用後8時間以内）</li>
+                    <li>血中アセトアミノフェン濃度とNomogramでの評価が必要</li>
+                    <li>服用後8時間を超えても投与適応があれば開始</li>
+                    <li>肝機能検査値の定期的な監視が必要</li>
+                    <li>嘔吐する場合は1時間以内であれば再投与を検討</li>
+                    <li>このツールは医療従事者向けの参考情報です</li>
+                    <li>実際の治療は医師の判断に従ってください</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateDosage() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const formulation = document.getElementById('formulation').value;
+
+            if (!weight || weight <= 0) {
+                alert('正しい体重を入力してください');
+                return;
+            }
+
+            // 経口投与の計算
+            const oralLoadingDose = weight * 140; // mg
+            const oralMaintenanceDose = weight * 70; // mg
+            const concentration = 176; // mg/mL (17.6%)
+            const oralLoadingVolume = oralLoadingDose / concentration; // mL
+            const oralMaintenanceVolume = oralMaintenanceDose / concentration; // mL
+
+            // 静脈内投与の計算
+            const ivStage1Dose = weight * 150; // mg
+            const ivStage2Dose = weight * 50; // mg
+            const ivStage3Dose = weight * 100; // mg
+
+            // 結果を表示
+            document.getElementById('oral-loading-dose').textContent = `${oralLoadingDose.toFixed(0)} mg`;
+            document.getElementById('oral-loading-volume').textContent = `${oralLoadingVolume.toFixed(1)} mL`;
+            document.getElementById('oral-maintenance-dose').textContent = `${oralMaintenanceDose.toFixed(0)} mg`;
+            document.getElementById('oral-maintenance-volume').textContent = `${oralMaintenanceVolume.toFixed(1)} mL`;
+
+            document.getElementById('iv-stage1-dose').textContent = `${ivStage1Dose.toFixed(0)} mg`;
+            document.getElementById('iv-stage2-dose').textContent = `${ivStage2Dose.toFixed(0)} mg`;
+            document.getElementById('iv-stage3-dose').textContent = `${ivStage3Dose.toFixed(0)} mg`;
+
+            // プロトコル表示の切り替え
+            const oralProtocol = document.getElementById('oral-protocol');
+            const ivProtocol = document.getElementById('iv-protocol');
+
+            if (formulation === 'oral') {
+                oralProtocol.style.display = 'block';
+                ivProtocol.style.display = 'none';
+            } else {
+                oralProtocol.style.display = 'none';
+                ivProtocol.style.display = 'block';
+            }
+
+            // 結果セクションを表示
+            document.getElementById('results').classList.remove('hidden');
+            
+            // 結果セクションまでスクロール
+            document.getElementById('results').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        // エンターキーで計算実行
+        document.getElementById('weight').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateDosage();
+            }
+        });
+
+        // 製剤変更時に結果を更新
+        document.getElementById('formulation').addEventListener('change', function() {
+            const results = document.getElementById('results');
+            if (!results.classList.contains('hidden')) {
+                calculateDosage();
+            }
+        });
+    </script>
+</body>
+</html>
